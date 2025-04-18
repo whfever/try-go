@@ -1,7 +1,6 @@
 package org.example.imitate.tomcat;
 
-import org.example.imitate.tomcat.controller.TestController;
-import org.example.imitate.tomcat.handler.RequestMappingHandler;
+import org.example.imitate.tomcat.context.ApplicationContext;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -13,19 +12,17 @@ import java.nio.charset.StandardCharsets;
 
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     private static final Logger logger = LoggerFactory.getLogger(HttpRequestHandler.class);
-    private final RequestMappingHandler requestMappingHandler;
+    private final ApplicationContext applicationContext;
 
     public HttpRequestHandler() {
-        this.requestMappingHandler = new RequestMappingHandler();
-        // 注册控制器
-        requestMappingHandler.registerController(new TestController());
+        this.applicationContext = new ApplicationContext("org.example.imitate.tomcat.controller");
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) {
         try {
             logger.info("收到请求: {} {}", request.method(), request.uri());
-            FullHttpResponse response = requestMappingHandler.handleRequest(request);
+            FullHttpResponse response = applicationContext.getRequestMappingHandler().handleRequest(request);
             ctx.writeAndFlush(response);
         } catch (Exception e) {
             logger.error("处理请求时发生错误", e);

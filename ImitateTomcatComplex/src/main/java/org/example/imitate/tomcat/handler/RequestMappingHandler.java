@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class RequestMappingHandler {
     private static final Logger logger = LoggerFactory.getLogger(RequestMappingHandler.class);
-    private final Map<String, Method> handlerMethods = new HashMap<>();
-    private final Map<String, BaseController> controllers = new HashMap<>();
+    private final Map<String, Map<String, Method>> handlerMethods = new HashMap<>();
+    private final Map<String, Map<String, BaseController>> controllers = new HashMap<>();
 
     public void registerController(BaseController controller) {
         Class<?> clazz = controller.getClass();
@@ -33,24 +33,39 @@ public class RequestMappingHandler {
             if (method.isAnnotationPresent(RequestMapping.class)) {
                 RequestMapping mapping = method.getAnnotation(RequestMapping.class);
                 String path = basePath + mapping.value();
-                handlerMethods.put(path, method);
-                controllers.put(path, controller);
-                logger.info("注册处理器: {} -> {}.{}", path, clazz.getSimpleName(), method.getName());
+                String methodType = mapping.method().toUpperCase();
+                
+                // 初始化路径对应的Map
+                handlerMethods.computeIfAbsent(path, k -> new HashMap<>());
+                controllers.computeIfAbsent(path, k -> new HashMap<>());
+                
+                // 存储方法和控制器
+                handlerMethods.get(path).put(methodType, method);
+                controllers.get(path).put(methodType, controller);
+                
+                logger.info("注册处理器: {} {} -> {}.{}", methodType, path, clazz.getSimpleName(), method.getName());
             }
         }
     }
 
     public FullHttpResponse handleRequest(FullHttpRequest request) {
         String path = request.uri();
-        Method method = handlerMethods.get(path);
-        BaseController controller = controllers.get(path);
-
-        if (method != null && controller != null) {
-            try {
-                return (FullHttpResponse) method.invoke(controller, request);
-            } catch (Exception e) {
-                logger.error("处理请求时发生错误", e);
-                return createErrorResponse("Internal Server Error");
+        String method = request.method().name();
+        
+        Map<String, Method> methods = handlerMethods.get(path);
+        Map<String, BaseController> controllerMap = controllers.get(path);
+        
+        if (methods != null && controllerMap != null) {
+            Method handlerMethod = methods.get(method);
+            BaseController controller = controllerMap.get(method);
+            
+            if (handlerMethod != null && controller != null) {
+                try {
+                    return (FullHttpResponse) handlerMethod.invoke(controller, request);
+                } catch (Exception e) {
+                    logger.error("处理请求时发生错误", e);
+                    return createErrorResponse("Internal Server Error");
+                }
             }
         }
 
