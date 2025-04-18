@@ -5,6 +5,8 @@ import io.netty.handler.codec.http.*;
 import org.example.imitate.tomcat.annotation.Controller;
 import org.example.imitate.tomcat.annotation.RequestMapping;
 import org.example.imitate.tomcat.controller.BaseController;
+import org.example.imitate.tomcat.aspect.RequestLogAspect;
+import org.example.imitate.tomcat.aspect.CustomLogAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +63,17 @@ public class RequestMappingHandler {
             
             if (handlerMethod != null && controller != null) {
                 try {
-                    return (FullHttpResponse) handlerMethod.invoke(controller, request);
+                    // 使用自定义日志切面处理请求
+                    return CustomLogAspect.around(handlerMethod, request, () -> {
+                        // 使用请求日志切面处理请求
+                        return RequestLogAspect.around(handlerMethod, request, () -> {
+                            try {
+                                return (FullHttpResponse) handlerMethod.invoke(controller, request);
+                            } catch (Exception e) {
+                                throw new RuntimeException("处理请求时发生错误", e);
+                            }
+                        });
+                    });
                 } catch (Exception e) {
                     logger.error("处理请求时发生错误", e);
                     return createErrorResponse("Internal Server Error");

@@ -2,6 +2,7 @@ package org.example.imitate.tomcat.controller;
 
 import org.example.imitate.tomcat.annotation.Controller;
 import org.example.imitate.tomcat.annotation.RequestMapping;
+import org.example.imitate.tomcat.annotation.CustomLog;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +43,8 @@ public class UserController extends BaseController {
             
         return createResponse(response.toString(), "application/json");
     }
+
+    @CustomLog
     @RequestMapping(value = "/api/users1", method = "GET")
     public FullHttpResponse getUsers1(FullHttpRequest request) {
         ObjectMapper mapper = new ObjectMapper();
