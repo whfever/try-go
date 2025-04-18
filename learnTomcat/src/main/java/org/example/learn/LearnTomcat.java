@@ -1,7 +1,5 @@
-package main.java.org.example.learn;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.startup.Tomcat;
+
 import java.io.File;
 
 public class LearnTomcat {
