@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ssm_demo?useSSL=false&serverTimezone=UTC
+    username: root
+    password: sdfsdf
+
+mybatis:
+  type-aliases-package: org.example.ssm.entity
+  mapper-locations: classpath:mapper/*.xml

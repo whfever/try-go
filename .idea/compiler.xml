@@ -18,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SsmDemo" options="" />
       <module name="v-spring" options="-parameters" />
     </option>
   </component>
