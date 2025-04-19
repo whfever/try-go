@@ -1,0 +1,5 @@
+org\example\springbootdemo\SpringbootDemoApplication.class
+org\example\springbootdemo\entity\User.class
+org\example\springbootdemo\controller\UserController.class
+org\example\springbootdemo\service\UserService.class
+org\example\springbootdemo\mapper\UserMapper.class

@@ -13,11 +13,13 @@
         <module name="learn-tomcat" />
         <module name="imitate-tomcat" />
         <module name="imitate-mybatis" />
+        <module name="SpringbootDemo" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SpringbootDemo" options="-parameters" />
       <module name="SsmDemo" options="" />
       <module name="v-spring" options="-parameters" />
     </option>
