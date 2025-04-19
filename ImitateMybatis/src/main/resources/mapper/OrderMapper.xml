@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper namespace="org.example.imitate.mybatis.mapper.OrderMapper">
+    <resultMap id="orderMap" type="org.example.imitate.mybatis.entity.Order">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="orderMap">
+        SELECT * FROM `order` WHERE id = #{id}
+    </select>
+
+    <select id="selectByOrderNo" resultMap="orderMap">
+        SELECT * FROM `order` WHERE order_no = #{orderNo}
+    </select>
+
+    <select id="selectByUserId" resultMap="orderMap">
+        SELECT * FROM `order` WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByStatus" resultMap="orderMap">
+        SELECT * FROM `order` WHERE status = #{status}
+    </select>
+
+    <insert id="insert" parameterType="org.example.imitate.mybatis.entity.Order">
+        INSERT INTO `order` (user_id, order_no, amount, status)
+        VALUES (#{userId}, #{orderNo}, #{amount}, #{status})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE `order`
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM `order` WHERE id = #{id}
+    </delete>
+</mapper> 

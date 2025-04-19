@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="learn-tomcat" />
         <module name="untitled" />
-        <module name="imitate-tomcat" />
+        <module name="SsmDemo" />
         <module name="imitate-tomcat-complex" />
         <module name="v-spring" />
+        <module name="learn-tomcat" />
+        <module name="imitate-tomcat" />
+        <module name="imitate-mybatis" />
       </profile>
     </annotationProcessing>
   </component>

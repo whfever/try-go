@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.imitate.mybatis.mapper.UserMapper">
+    <resultMap id="userMap" type="org.example.imitate.mybatis.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectById" resultType="org.example.imitate.mybatis.entity.User">
+        SELECT id, username, password, email, create_time, update_time FROM user WHERE id = #{id}
+    </select>
+
+    <select id="selectByUsername" resultMap="userMap">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <select id="selectAll" resultType="org.example.imitate.mybatis.entity.User">
+        SELECT id, username, password, email, create_time, update_time FROM user
+    </select>
+
+    <insert id="insert" parameterType="org.example.imitate.mybatis.entity.User">
+        INSERT INTO user (username, password, email) VALUES (#{username}, #{password}, #{email})
+    </insert>
+
+    <update id="update" parameterType="org.example.imitate.mybatis.entity.User">
+        UPDATE user SET username = #{username}, password = #{password}, email = #{email} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+</mapper> 

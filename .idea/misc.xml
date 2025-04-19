@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/learnTomcat/pom.xml" />
         <option value="$PROJECT_DIR$/ImitateTomcat/pom.xml" />
         <option value="$PROJECT_DIR$/ImitateTomcatComplex/pom.xml" />
+        <option value="$PROJECT_DIR$/ImitateMybatis/pom.xml" />
+        <option value="$PROJECT_DIR$/SsmDemo/pom.xml" />
       </list>
     </option>
   </component>

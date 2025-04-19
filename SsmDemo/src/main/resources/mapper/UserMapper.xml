@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.ssm.mapper.UserMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap id="userMap" type="org.example.ssm.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <!-- 根据ID查询用户 -->
+    <select id="getUserById" parameterType="int" resultMap="userMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有用户 -->
+    <select id="getAllUsers" resultMap="userMap">
+        SELECT * FROM user
+    </select>
+
+    <!-- 添加用户 -->
+    <insert id="addUser" parameterType="org.example.ssm.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user(username, password, email, phone)
+        VALUES(#{username}, #{password}, #{email}, #{phone})
+    </insert>
+
+    <!-- 更新用户 -->
+    <update id="updateUser" parameterType="org.example.ssm.entity.User">
+        UPDATE user
+        SET username = #{username},
+            password = #{password},
+            email = #{email},
+            phone = #{phone}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+</mapper> 
